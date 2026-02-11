@@ -7,7 +7,7 @@ st.set_page_config(layout="centered")
 
 @st.cache_data
 def load_data():
-    df = pd.read_csv("Parker Bay Open Cut.csv", encoding="utf-8-sig")
+    df = pd.read_csv("PBOC.csv", encoding="utf-8-sig")
     df.columns = df.columns.str.strip()
     return df
 
