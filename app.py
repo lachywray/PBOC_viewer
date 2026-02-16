@@ -26,20 +26,36 @@ product = st.sidebar.selectbox(
 regions = st.sidebar.multiselect(
     "Regions",
     sorted(df["REGION - NEW"].dropna().unique()),
-    default=sorted(df["REGION - NEW"].dropna().unique())
+    default=["Australasia"]
 )
 
-# If SIZE is numeric
+#Machine SIZE
 df["SIZE"] = pd.to_numeric(df["SIZE"], errors="coerce")
 
 size_min = int(df["SIZE"].min())
 size_max = int(df["SIZE"].max())
 
+# default size by product
+default_sizes = {
+    "DOZER": 430,
+    "HYD EXCAVATOR": 500,
+    "TRUCK": 250,
+    "DRILL": 50,
+    "GRADER": 185,
+    "WHEEL LOADER":1000
+}
+
+# Get default for selected product
+default_size = default_sizes.get(product, size_min)
+
+# Ensure default is within dataset bounds
+default_size = max(size_min, min(default_size, size_max))
+
 size_selected = st.sidebar.slider(
     "> Machine Size (t)",
     min_value=size_min,
     max_value=size_max,
-    value=size_min,
+    value=default_size,
     step=10
 )
 
